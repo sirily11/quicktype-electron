@@ -4,26 +4,30 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import {
   spring,
   AnimatedRoute,
-  AnimatedSwitch
+  AnimatedSwitch,
 } from "./components/plugins/react-router-transition";
 import { HomePage } from "./components/pages/HomePage";
+import { createMuiTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
+import { HomePageProvider } from "./components/models/HomeContext";
+import { cyan } from "@material-ui/core/colors";
 
+const darkTheme = createMuiTheme({
+  palette: {
+    type: "dark",
+    primary: cyan,
+  },
+});
 class App extends Component {
   render() {
     return (
-      <Router>
-       
-                  <AnimatedSwitch
-                    atEnter={{ opacity: 0 }}
-                    atLeave={{ opacity: 0 }}
-                    atActive={{ opacity: 1 }}
-                    className="switch-wrapper"
-                  >
-                    <Route exact path="/" component={HomePage} />
-                   
-                  </AnimatedSwitch>
-            
-      </Router>
+      <ThemeProvider theme={darkTheme}>
+        <HomePageProvider>
+          <Router>
+            <Route exact path="/" component={HomePage} />
+            <CssBaseline />
+          </Router>
+        </HomePageProvider>
+      </ThemeProvider>
     );
   }
 }
